@@ -18,10 +18,13 @@
     .table-bordered>tbody>tr>th {
       border-color: #826D41;
     }
+    #main-container {
+      box-shadow: 0 0 5px #342b26;
+    }
   </style>
 </head>
 <body>
-  <div class="container">
+  <div id="main-container" class="container">
   {% block header %}
   {% include "partials/header.html" %}
   {% endblock %}
