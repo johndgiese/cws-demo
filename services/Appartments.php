@@ -1,6 +1,12 @@
 <?php
 
 class Appartments {
+
+  function __construct() {
+    // for now this is just to keep the appartments function from being used as 
+    // a construction
+  }
+
   public function complexes() {
     return array(
       array(
@@ -19,9 +25,10 @@ class Appartments {
   }
 
   public function appartments($complex) {
-    switch ($complex) {
+    switch ($complex = "") {
+
       case "Complex One":
-        return array(
+        $appartments = array(
           array(
             "number" => "43A",
             "type" => "2 BR",
@@ -37,8 +44,9 @@ class Appartments {
             "price_per_month" => 5600,
           )
         );
+        break;
       case "Complex Two":
-        return array(
+        $appartments = array(
           array(
             "number" => "2",
             "type" => "10 BR",
@@ -47,9 +55,11 @@ class Appartments {
             "price_per_month" => 12600,
           )
         );
-      case "default":
-        return array();
+        break;
+      default:
+        $appartments = array();
     }
+    return $appartments;
   }
 
 }
