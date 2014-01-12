@@ -1,11 +1,6 @@
 <?php
 
-class Appartments {
-
-  function __construct() {
-    // for now this is just to keep the appartments function from being used as 
-    // a construction
-  }
+class AppartmentService {
 
   public function complexes() {
     return array(

@@ -16,7 +16,7 @@ try {
   });
 
   $di->set('appartments', function() {
-    return new Appartments();
+    return new AppartmentService();
   });
 
   $di->set('voltService', function($view, $di) {
