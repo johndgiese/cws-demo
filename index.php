@@ -5,12 +5,18 @@ try {
   $loader = new \Phalcon\Loader();
   $loader->registerDirs(array(
     'controllers/',
+    'services/',
   ))->register();
+
 
   $di = new Phalcon\DI\FactoryDefault();
 
   $di->set('logger', function() {
     return new \Phalcon\Logger\Adapter\File('var/main.log');
+  });
+
+  $di->set('appartments', function() {
+    return new Appartments();
   });
 
   $di->set('view', function() {
@@ -22,9 +28,11 @@ try {
     return $view;
   });
 
+
   $application = new \Phalcon\Mvc\Application($di);
   $application->useImplicitView(false);
   echo $application->handle()->getContent();
+
 
 } catch(Exception $e) {
   echo "Exception: ", $e->getMessage() . "\n";

@@ -1,5 +1,18 @@
 {% extends "layouts/base.html" %}
 
 {% block content %}
-<h1>Hello {{ name }}</h1>
+<table class="table table-bordered">
+  <tr>
+    <th>Name</th>
+    <th>State</th>
+    <th>Description</th>
+  </tr>
+  {% for c in complexes %}
+  <tr>
+    <td>{{ c['name'] }}</td>
+    <td>{{ c['state'] }}</td>
+    <td>{{ c['description'] }}</td>
+  </tr>
+  {% endfor %}
+</table>
 {% endblock %}
