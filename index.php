@@ -19,11 +19,19 @@ try {
     return new Appartments();
   });
 
+  $di->set('voltService', function($view, $di) {
+    $volt = new \Phalcon\Mvc\View\Engine\Volt($view, $di);
+    $volt->setOptions(array(
+      "compileAlways" => True, // change when in production
+    ));
+    return $volt;
+  });
+
   $di->set('view', function() {
     $view = new \Phalcon\Mvc\View\Simple();
     $view->setViewsDir('views/');
     $view->registerEngines(array(
-      ".html" => 'Phalcon\Mvc\View\Engine\Volt'
+      ".html" => "voltService",
     ));
     return $view;
   });
