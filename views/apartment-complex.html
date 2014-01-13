@@ -1,0 +1,27 @@
+{% extends "layouts/base.html" %}
+
+{% block content %}
+<div id="content" class="row">
+  <div class="col-xs-12 col-lg-8">
+    <br>
+    <table class="table table-bordered">
+      <tr>
+        <th>Number</th>
+        <th>Type</th>
+        <th>Size</th>
+        <th>Price</th>
+        <th>Available On</th>
+      </tr>
+      {% for a in apartments %}
+      <tr>
+        <td>{{ a['number'] }}</td>
+        <td>{{ a['type'] }}</td>
+        <td>{{ a['size'] }}</td>
+        <td>{{ a['price'] }}</td>
+        <td>{{ a['available_on'] }}</td>
+      </tr>
+      {% endfor %}
+    </table>
+  </div>
+</div>
+{% endblock %}

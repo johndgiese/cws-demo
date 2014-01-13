@@ -36,6 +36,12 @@ try {
     return $view;
   });
 
+  $di->set('router', function() {
+    $router = new \Phalcon\Mvc\Router\Annotations(false);
+    $router->addResource('Index', '/');
+    return $router;
+  });
+
 
   $application = new \Phalcon\Mvc\Application($di);
   $application->useImplicitView(false);
