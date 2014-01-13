@@ -53,6 +53,12 @@ try {
     return $view;
   });
 
+  $di->set('url', function() {
+    $url = new Phalcon\Mvc\Url();
+    $url->setBaseUri('/public/');
+    return $url;
+  });
+
   $di->set('router', function() {
     $router = new \Phalcon\Mvc\Router();
     $router->add(
