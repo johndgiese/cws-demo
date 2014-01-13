@@ -1,9 +1,9 @@
 <?php 
 
-class mainTask extends \Phalcon\CLI\Task
+class complexTask extends \Phalcon\CLI\Task
 {
 
-    public function mainAction($url = "") {
+    public function updateAction($url = "") {
       if (!$url) {
         $url = $this->config["defaultComplexListURL"];
       }

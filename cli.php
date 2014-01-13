@@ -29,7 +29,7 @@ $loader->registerDirs(
 $loader->register();
 
 $di->set('config', function() {
-  require "config.php";
+  require "config/config.php";
   $config = new \Phalcon\Config($settings);
   return $config;
 });

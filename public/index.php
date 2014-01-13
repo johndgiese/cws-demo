@@ -15,6 +15,12 @@ try {
     return new \Phalcon\Logger\Adapter\File('../var/main.log');
   });
 
+  $di->set('config', function() {
+    require "config/config.php";
+    $config = new \Phalcon\Config($settings);
+    return $config;
+  });
+
   $di->set('apartments', function() {
     return new AppartmentService();
   });
