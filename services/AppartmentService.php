@@ -1,22 +1,13 @@
 <?php
 
+use Phalcon\Mvc\Model\Resultset;
+
 class AppartmentService {
 
   public function complexes() {
-    return array(
-      array(
-        "name" => "Complex One",
-        "url" => "complex/1",
-        "description" => "Short description goes here",
-        "state" => "TX",
-      ),
-      array(
-        "name" => "Complex Two",
-        "url" => "complex/2",
-        "description" => "Short description goes here",
-        "state" => "OK",
-      )
-    );
+    $complexes = Complex::find();
+    $complexes->setHydrateMode(Resultset::HYDRATE_ARRAYS);
+    return $complexes;
   }
 
   public function apartments($complex) {

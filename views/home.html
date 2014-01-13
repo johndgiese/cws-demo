@@ -8,13 +8,11 @@
       <tr>
         <th>Name</th>
         <th>State</th>
-        <th>Description</th>
       </tr>
       {% for c in complexes %}
       <tr>
         <td>{{ c['name'] }}</td>
         <td>{{ c['state'] }}</td>
-        <td>{{ c['description'] }}</td>
       </tr>
       {% endfor %}
     </table>

@@ -6,6 +6,7 @@ try {
   $loader->registerDirs(array(
     '../controllers/',
     '../services/',
+    '../models/',
   ))->register();
 
 
@@ -15,10 +16,20 @@ try {
     return new \Phalcon\Logger\Adapter\File('../var/main.log');
   });
 
+  require "../config/config.php"; // defines $settings
+
   $di->set('config', function() {
-    require "config/config.php";
     $config = new \Phalcon\Config($settings);
     return $config;
+  });
+
+  $di->set('db', function() use ($settings) {
+    return new \Phalcon\Db\Adapter\Pdo\Mysql(array(
+      "host" => $settings["db"]["host"],
+      "username" => $settings["db"]["username"],
+      "password" => $settings["db"]["password"],
+      "dbname" => $settings["db"]["dbname"],
+    ));
   });
 
   $di->set('apartments', function() {

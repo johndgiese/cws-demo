@@ -1,9 +1,23 @@
 <?php 
 
+require 'vendor/autoload.php';
+
 use Phalcon\DI\FactoryDefault\CLI as CliDI,
    Phalcon\CLI\Console as ConsoleApp;
 
 define('VERSION', '1.0.0');
+
+// Register the autoloader and tell it to register the tasks directory
+$loader = new \Phalcon\Loader();
+$loader->registerDirs(
+ array(
+   'tasks/',
+   'models/',
+ )
+);
+
+$loader->register();
+
 
 //Using the CLI factory default services container
 $di = new CliDI();
@@ -15,23 +29,20 @@ $di->set('logger', function() {
   return $logger;
 });
 
+require "config/config.php"; // defines $settings
 
-// Define path to application directory
-defined('APPLICATION_PATH') || define('APPLICATION_PATH', realpath(dirname(__FILE__)));
-
-// Register the autoloader and tell it to register the tasks directory
-$loader = new \Phalcon\Loader();
-$loader->registerDirs(
- array(
-   APPLICATION_PATH . '/tasks'
- )
-);
-$loader->register();
-
-$di->set('config', function() {
-  require "config/config.php";
+$di->set('config', function() use ($settings) {
   $config = new \Phalcon\Config($settings);
   return $config;
+});
+
+$di->set('db', function() use ($settings) {
+  return new \Phalcon\Db\Adapter\Pdo\Mysql(array(
+    "host" => $settings["db"]["host"],
+    "username" => $settings["db"]["username"],
+    "password" => $settings["db"]["password"],
+    "dbname" => $settings["db"]["dbname"],
+  ));
 });
 
 //Create a console application
@@ -54,19 +65,14 @@ foreach($argv as $k => $arg) {
  }
 }
 if(count($params) > 0) {
- $arguments['params'] = $params;
+  $arguments['params'] = $params;
 }
-
-// define global constants for the current task and action
-define('CURRENT_TASK', (isset($argv[1]) ? $argv[1] : null));
-define('CURRENT_ACTION', (isset($argv[2]) ? $argv[2] : null));
 
 try {
- // handle incoming arguments
- $console->handle($arguments);
+  $console->handle($arguments);
 }
 catch (\Phalcon\Exception $e) {
- echo $e->getMessage();
- exit(255);
+  echo $e->getMessage();
+  exit(255);
 }
 

@@ -10,5 +10,5 @@ class Complex extends \Phalcon\Mvc\Model {
   public function getSource() {
     return "complexes";
   }
-  
 }
+
