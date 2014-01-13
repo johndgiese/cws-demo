@@ -19,11 +19,11 @@ class AppartmentService {
     );
   }
 
-  public function appartments($complex) {
+  public function apartments($complex) {
     switch ($complex = "") {
 
       case "Complex One":
-        $appartments = array(
+        $apartments = array(
           array(
             "number" => "43A",
             "type" => "2 BR",
@@ -41,7 +41,7 @@ class AppartmentService {
         );
         break;
       case "Complex Two":
-        $appartments = array(
+        $apartments = array(
           array(
             "number" => "2",
             "type" => "10 BR",
@@ -52,9 +52,9 @@ class AppartmentService {
         );
         break;
       default:
-        $appartments = array();
+        $apartments = array();
     }
-    return $appartments;
+    return $apartments;
   }
 
 }

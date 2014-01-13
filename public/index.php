@@ -4,18 +4,18 @@ try {
 
   $loader = new \Phalcon\Loader();
   $loader->registerDirs(array(
-    'controllers/',
-    'services/',
+    '../controllers/',
+    '../services/',
   ))->register();
 
 
   $di = new Phalcon\DI\FactoryDefault();
 
   $di->set('logger', function() {
-    return new \Phalcon\Logger\Adapter\File('var/main.log');
+    return new \Phalcon\Logger\Adapter\File('../var/main.log');
   });
 
-  $di->set('appartments', function() {
+  $di->set('apartments', function() {
     return new AppartmentService();
   });
 
@@ -29,7 +29,7 @@ try {
 
   $di->set('view', function() {
     $view = new \Phalcon\Mvc\View\Simple();
-    $view->setViewsDir('views/');
+    $view->setViewsDir('../views/');
     $view->registerEngines(array(
       ".html" => "voltService",
     ));
@@ -37,8 +37,22 @@ try {
   });
 
   $di->set('router', function() {
-    $router = new \Phalcon\Mvc\Router\Annotations(false);
-    $router->addResource('Index', '/');
+    $router = new \Phalcon\Mvc\Router();
+    $router->add(
+      "/",
+      array(
+        "controller" => "index",
+        "action" => "index",
+      )
+    );
+    $router->add(
+      "/complex/([0-9]+)/:params",
+      array(
+        "controller" => "index",
+        "action" => "showComplex",
+        "complex" => 1,
+      )
+    );
     return $router;
   });
 
