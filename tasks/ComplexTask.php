@@ -19,6 +19,12 @@ class complexTask extends \Phalcon\CLI\Task
       $elements = $xpath->query($query);
 
       if (!is_null($elements)) {
+
+        // delete previous contents
+        foreach (Complex::find() as $c) {
+          $c->delete();
+        }
+
         foreach ($elements as $element) {
           $raw_text = $element->textContent;
           $raw_text_pieces = explode(",", $raw_text);

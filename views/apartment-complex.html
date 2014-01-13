@@ -11,6 +11,12 @@
     </a>
     <br>
     <br>
+    <h3 style="display: inline;">
+      {{ complex.name }}
+    </h3>
+    <a href="{{ complex.url }}" target="_blank"><emph>view site <span class="glphicon glyphicon-plus"></emph></a>
+    <br>
+    <br>
     <table class="table table-bordered">
       <tr>
         <th>Number</th>
@@ -27,6 +33,11 @@
         <td>{{ a['price'] }}</td>
         <td>{{ a['available_on'] }}</td>
       </tr>
+      {% elsefor %}
+      <tr>
+        <td colspan="5" class="text-center">
+          We were unable to find any apartments!
+        </td>
       {% endfor %}
     </table>
   </div>
