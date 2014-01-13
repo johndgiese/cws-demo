@@ -6,13 +6,20 @@
     <br>
     <table class="table table-bordered">
       <tr>
-        <th>Name</th>
         <th>State</th>
+        <th>Name</th>
       </tr>
       {% for c in complexes %}
       <tr>
-        <td>{{ c['name'] }}</td>
         <td>{{ c['state'] }}</td>
+        <td>
+          <span>
+            {{ c['name'] }}
+          </span>
+          <a class="pull-right" href="/complexes/{{ c['id'] }}/">
+            <emph>search <span class="glyphicon glyphicon-arrow-right"></span></emph>
+          </a>
+        </td>
       </tr>
       {% endfor %}
     </table>
