@@ -10,12 +10,14 @@ class IndexController extends \Phalcon\Mvc\Controller {
   }
 
   public function showComplexAction() {
-    $complex = $this->dispatcher->getParam("complex");
+    $complex_id = $this->dispatcher->getParam("complex");
+    $complex = Complex::findFirst("id = $complex_id");
+    $data = $this->apartments->apartments($complex);
     $context = array(
-      "apartments" => $this->apartments->apartments($complex),
+      //"contact" => $data->{'OnSiteContact'},
+      "units" => $data->{'Unit'},
+      "complex" => $complex,
     );
-    $this->logger->log("In complex $complex");
-    $this->logger->log("context $context");
     echo $this->view->render("apartment-complex", $context);
   }
 }

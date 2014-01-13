@@ -20,18 +20,17 @@
     <table class="table table-bordered">
       <tr>
         <th>Number</th>
-        <th>Type</th>
-        <th>Size</th>
+        <th>Size (Sq. Ft.)</th>
         <th>Price</th>
         <th>Available On</th>
       </tr>
-      {% for a in apartments %}
+      <script>var data = {{ units|json_encode }};</script>
+      {% for u in units %}
       <tr>
-        <td>{{ a['number'] }}</td>
-        <td>{{ a['type'] }}</td>
-        <td>{{ a['size'] }}</td>
-        <td>{{ a['price'] }}</td>
-        <td>{{ a['available_on'] }}</td>
+        <td>{{ u.id }}</td>
+        <td>{{ u.SquareFeet }}</td>
+        <td>{{ u.EffectiveRent.min }} - {{ u.EffectiveRent.max }}</td>
+        <td>{{ u.Availability.VacancyClass }}</td>
       </tr>
       {% elsefor %}
       <tr>

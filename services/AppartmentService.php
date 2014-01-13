@@ -11,41 +11,39 @@ class AppartmentService {
   }
 
   public function apartments($complex) {
-    switch ($complex = "") {
 
-      case "Complex One":
-        $apartments = array(
-          array(
-            "number" => "43A",
-            "type" => "2 BR",
-            "size" => 400,
-            "available_on" => DateTime("2014-05-03"),
-            "price_per_month" => NULL,
-          ),
-          array(
-            "number" => "4C",
-            "type" => "3 BR",
-            "size" => 600,
-            "available_on" => DateTime("now"),
-            "price_per_month" => 5600,
-          )
-        );
-        break;
-      case "Complex Two":
-        $apartments = array(
-          array(
-            "number" => "2",
-            "type" => "10 BR",
-            "size" => 6000,
-            "available_on" => DateTime("now"),
-            "price_per_month" => 12600,
-          )
-        );
-        break;
-      default:
-        $apartments = array();
-    }
-    return $apartments;
+    $url = $complex->url;
+
+    Guzzle\Http\StaticClient::mount();
+    $response = Guzzle::get($url);
+
+    $doc = new DOMDocument();
+    $doc->loadHTML($response->getBody());
+
+    $query = "/html/head/script";
+    $xpath = new DOMXpath($doc);
+    $elements = $xpath->query($query);
+    $script_with_complex_keyword = $elements->item(3);
+    $text = $script_with_complex_keyword->textContent;
+
+    $match_array = array();
+    $pattern = '/\?w=(.*)\"/';
+    preg_match($pattern, $text, $match_array);
+
+    $complex_keyword = $match_array[1];
+
+    $json_url = "http://property.onesite.realpage.com/templates/tedtest/rpoxml4.asp?w=$complex_keyword&rpo=mitsunits,floorplan&returnType=jsonp";
+
+    Guzzle\Http\StaticClient::mount();
+    $response = Guzzle::get($json_url);
+
+    $raw_body = $response->getBody();
+    $json_txt = substr($raw_body, 12, -1);
+
+    $data = json_decode($json_txt);
+    $data = $data->{"rpo_info"}->{"mitsunits"}->{"PhysicalProperty"}->{"Property"};
+
+    return $data;
   }
 
 }
