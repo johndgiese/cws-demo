@@ -6,7 +6,7 @@ class complexTask extends \Phalcon\CLI\Task
     public function updateAction() {
 
       $url = $this->config["defaultComplexListURL"];
-      $this->logger->log("Screen scrapping appartment complexes from:\n  $url\n");
+      $this->logger->log("Screen scrapping appartment complexes from:\n  $url");
 
       Guzzle\Http\StaticClient::mount();
       $response = Guzzle::get($url);
@@ -21,11 +21,14 @@ class complexTask extends \Phalcon\CLI\Task
       if (!is_null($elements)) {
 
         // delete previous contents
+        $this->logger->log("Deleteing all saved complexes...");
         foreach (Complex::find() as $c) {
           $c->delete();
         }
 
+        $num_complexes = 0;
         foreach ($elements as $element) {
+          $num_complexes += 1;
           $raw_text = $element->textContent;
           $raw_text_pieces = explode(",", $raw_text);
 
@@ -42,6 +45,9 @@ class complexTask extends \Phalcon\CLI\Task
 
           $complex->save();
         }
+        $this->logger->log("Saved details about $num_complexes apartment complexes.");
+      } else {
+        $this->logger->log("Couldn't find any apartment complexes on the page.");
       }
       
     }
