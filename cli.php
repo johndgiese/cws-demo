@@ -15,6 +15,7 @@ $loader->registerDirs(
  array(
    SITE_ROOT . '/tasks/',
    SITE_ROOT . '/models/',
+   SITE_ROOT . '/lib/',
  )
 );
 $loader->register();

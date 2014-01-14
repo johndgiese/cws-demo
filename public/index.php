@@ -13,6 +13,7 @@ try {
     SITE_ROOT . '/controllers/',
     SITE_ROOT . '/services/',
     SITE_ROOT . '/models/',
+    SITE_ROOT . '/lib/',
   ));
   $loader->register();
 
