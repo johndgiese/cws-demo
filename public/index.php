@@ -2,85 +2,24 @@
 
 try {
 
-  require '../vendor/autoload.php';
+  define("SITE_ROOT", dirname(dirname(__FILE__)));
+
+  require SITE_ROOT . '/vendor/autoload.php';
+
+  require SITE_ROOT . "/config/settings.php"; // defines $settings
 
   $loader = new \Phalcon\Loader();
   $loader->registerDirs(array(
-    '../controllers/',
-    '../services/',
-    '../models/',
-  ))->register();
-
+    SITE_ROOT . '/controllers/',
+    SITE_ROOT . '/services/',
+    SITE_ROOT . '/models/',
+  ));
+  $loader->register();
 
   $di = new Phalcon\DI\FactoryDefault();
 
-  $di->set('logger', function() {
-    return new \Phalcon\Logger\Adapter\File('../var/main.log');
-  });
-
-  require "../config/config.php"; // defines $settings
-
-  $di->set('config', function() {
-    $config = new \Phalcon\Config($settings);
-    return $config;
-  });
-
-  $di->set('db', function() use ($settings) {
-    return new \Phalcon\Db\Adapter\Pdo\Mysql(array(
-      "host" => $settings["db"]["host"],
-      "username" => $settings["db"]["username"],
-      "password" => $settings["db"]["password"],
-      "dbname" => $settings["db"]["dbname"],
-    ));
-  });
-
-  $di->set('apartments', function() {
-    return new AppartmentService();
-  });
-
-  $di->set('voltService', function($view, $di) {
-    $volt = new \Phalcon\Mvc\View\Engine\Volt($view, $di);
-    $volt->setOptions(array(
-      "compileAlways" => True, // change when in production
-    ));
-    return $volt;
-  });
-
-  $di->set('view', function() {
-    $view = new \Phalcon\Mvc\View\Simple();
-    $view->setViewsDir('../views/');
-    $view->registerEngines(array(
-      ".html" => "voltService",
-    ));
-    return $view;
-  });
-
-  $di->set('url', function() {
-    $url = new Phalcon\Mvc\Url();
-    $url->setBaseUri('/public/');
-    return $url;
-  });
-
-  $di->set('router', function() {
-    $router = new \Phalcon\Mvc\Router();
-    $router->add(
-      "/",
-      array(
-        "controller" => "index",
-        "action" => "index",
-      )
-    );
-    $router->add(
-      "/complex/([0-9]+)/:params",
-      array(
-        "controller" => "index",
-        "action" => "showComplex",
-        "complex" => 1,
-      )
-    );
-    return $router;
-  });
-
+  require SITE_ROOT . '/config/web_and_cli_services.php';
+  require SITE_ROOT . '/config/web_services.php';
 
   $application = new \Phalcon\Mvc\Application($di);
   $application->useImplicitView(false);
