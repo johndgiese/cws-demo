@@ -34,7 +34,6 @@ class AppartmentService {
 
     $json_url = "http://property.onesite.realpage.com/templates/tedtest/rpoxml4.asp?w=$complex_keyword&rpo=mitsunits,floorplan&returnType=jsonp";
 
-    Guzzle\Http\StaticClient::mount();
     $response = Guzzle::get($json_url);
 
     $raw_body = $response->getBody();
