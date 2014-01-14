@@ -6,6 +6,7 @@ class Complex extends \Phalcon\Mvc\Model {
   public $name;
   public $state;
   public $url;
+  public $apt_search_keyword;
 
   public function getSource() {
     return "complexes";
