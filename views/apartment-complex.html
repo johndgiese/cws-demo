@@ -2,7 +2,7 @@
 
 {% block content %}
 <div id="content" class="row">
-  <div class="col-xs-12 col-lg-8">
+  <div class="col-xs-12 col-lg-8 col-lg-offset-2">
     <br>
     <a href="/">
       <span class="glyphicon glyphicon-arrow-left">
@@ -17,25 +17,40 @@
     <a href="{{ complex.url }}" target="_blank"><emph>view site <span class="glphicon glyphicon-plus"></emph></a>
     <br>
     <br>
-    <table class="table table-bordered">
+    <dl>
+      <dt>Property Manager</dt>
+      <dd>{{ contact.FirstName }} {{ contact.LastName }}</dd>
+      <dd>{{ contact.Phone.Number }}</dd>
+    </dl>
+    <table class="table table-bordered table-text-center">
       <tr>
         <th>Number</th>
-        <th>Size (Sq. Ft.)</th>
+        <th>Size</th>
         <th>Price</th>
         <th>Available On</th>
       </tr>
-      <script>var data = {{ units|json_encode }};</script>
       {% for u in units %}
       <tr>
         <td>{{ u.id }}</td>
-        <td>{{ u.SquareFeet }}</td>
-        <td>{{ u.EffectiveRent.min }} - {{ u.EffectiveRent.max }}</td>
+
+        <td>{{ u.SquareFeet }} sq ft</td>
+
+        {% if u.EffectiveRent.max == u.EffectiveRent.min %}
+        <td>${{ u.EffectiveRent.min }}</td>
+        {% else %}
+        <td>${{ u.EffectiveRent.min }} - ${{ u.EffectiveRent.max }}</td>
+        {% endif %}
+
+        {% if u.Availability.VacancyClass == "unoccupied" %}
+        <td>available on {{ u.Availability.MadeReadyDate.month }}/{{ u.Availability.MadeReadyDate.day }}/{{ u.Availability.MadeReadyDate.year }}</td>
+        {% else %}
         <td>{{ u.Availability.VacancyClass }}</td>
+        {% endif %}
       </tr>
       {% elsefor %}
       <tr>
         <td colspan="5" class="text-center">
-          We were unable to find any apartments!
+          We ran into trouble when downloading all the apartment data.  We apologize for the inconvenience.
         </td>
       {% endfor %}
     </table>

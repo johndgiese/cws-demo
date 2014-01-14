@@ -14,7 +14,7 @@ class IndexController extends \Phalcon\Mvc\Controller {
     $complex = Complex::findFirst("id = $complex_id");
     $data = $this->apartments->apartments($complex);
     $context = array(
-      //"contact" => $data->{'OnSiteContact'},
+      "contact" => $data->{'OnSiteContact'},
       "units" => $data->{'Unit'},
       "complex" => $complex,
     );
